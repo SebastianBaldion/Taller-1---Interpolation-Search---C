@@ -1,33 +1,42 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+#include<stdio.h>
+#define MAX 10
 
-# Precompiled Headers
-*.gch
-*.pch
+int list[MAX] = { 10, 14, 19, 26, 27, 31, 33, 35, 42, 44 };
+int find(int data) {
+    int primeraPosicion = 0;
+    int segundaPosicion = MAX - 1;
+    int mid = -1;
+    int comparacion = 1;
+    int index = -1;
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+    while (primeraPosicion <= segundaPosicion) {
+        printf("\nComparacion %d \n" , comparacion ) ;
+        printf("primeraPosicion : %d, lista[%d] = %d\n", primeraPosicion, primeraPosicion, list[primeraPosicion]);
+        printf("segundaPosicion : %d, lista[%d] = %d\n", segundaPosicion, segundaPosicion, list[segundaPosicion]);
+        comparacion++;
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+        mid = primeraPosicion + (((double)(segundaPosicion - primeraPosicion) / (list[segundaPosicion] - list[primeraPosicion])) * (data - list[primeraPosicion]));
+        printf("mid = %d\n",mid);
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+        if (list[mid] == data) {
+            index = mid;
+            break;
+        } else {
+            if(list[mid] < data) {
+                primeraPosicion = mid + 1;
+            } else {
+                segundaPosicion = mid - 1;
+            }
+        }
+    }
+    return index;
+}
 
-# Debug files
-*.dSYM/
-*.su
+int main () {
+    int location = find(19);
+    if (location != -1)
+        printf("\nSe encontro en la posicion: %d" ,(location+1));
+    else
+        printf("Elemento no encontrado.");
+    return 0;
+}
